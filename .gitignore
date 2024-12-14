@@ -1,0 +1,9 @@
+.env# Ignore environment file containing secrets
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# MacOS files
+.DS_Store

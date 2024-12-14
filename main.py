@@ -1,21 +1,46 @@
-from langchain.document_loaders import PyPDFLoader
-from langchain.vectorstores import Chroma
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.document_loaders import UnstructuredPDFLoader
-# from langchain.llms import OpenAI
-from langchain.chat_models import ChatOpenAI
-from langchain.chains.question_answering import load_qa_chain
+from pdf_utils import extract_text_from_pdf, find_section
+from llm_utils import summarize_text, answer_question, summarize_full_text
 
-# Replace book.pdf with any pdf of your choice
-loader = UnstructuredPDFLoader("book.pdf")
-pages = loader.load_and_split()
-embeddings = OpenAIEmbeddings()
-docsearch = Chroma.from_documents(pages, embeddings).as_retriever()
+import os
 
-# Choose any query of your choice
-query = "Who is Rich Dad?"
-docs = docsearch.get_relevant_documents(query)
-# chain = load_qa_chain(OpenAI(temperature=0), chain_type="stuff")
-chain = load_qa_chain(ChatOpenAI(temperature=0), chain_type="stuff")
-output = chain.run(input_documents=docs, question=query)
-print(output)
+if __name__ == "__main__":
+    # Specify the path to your input PDF file
+    pdf_path = "input/Customer trust and willingness to use shopping assistant humanoid chatbot.pdf"
+    
+    # Extract the full text
+    full_text = extract_text_from_pdf(pdf_path)
+    
+    # Identify sections
+    abstract_text = find_section(full_text, "Abstract")
+    methods_text = find_section(full_text, "Methods")
+    results_text = find_section(full_text, "Results")
+    
+    # Summarize each section if found
+    abstract_summary = summarize_text(abstract_text, "Abstract")
+    methods_summary = summarize_text(methods_text, "Methods")
+    results_summary = summarize_text(results_text, "Results")
+    
+    # Generate a top-level summary of the entire paper
+    full_summary = summarize_full_text(full_text)
+    
+    # Print out the summaries
+    print("=== Summaries ===")
+    print("Abstract Summary:\n", abstract_summary, "\n")
+    print("Methods Summary:\n", methods_summary, "\n")
+    print("Results Summary:\n", results_summary, "\n")
+    print("Full Paper Summary:\n", full_summary, "\n")
+
+    # Q&A loop
+    while True:
+        user_q = input("Ask a question about the paper (or type 'exit' to quit): ")
+        if user_q.lower() == 'exit':
+            break
+        answer = answer_question(user_q, full_text, full_summary)
+        print("Answer:", answer, "\n")
+        print("==========================")
+"""
+    
+What are the real suggestions for businesses from this paper?
+If I am a businessman, how can I use chatbots effectively?
+"""
+
