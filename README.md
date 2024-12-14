@@ -22,14 +22,14 @@ graphql
 Copy code
 project/
 │
-├─ pdf_utils.py        # Functions for PDF text extraction and section identification
-├─ llm_utils.py        # Functions to summarize text, summarize full papers, and answer questions
-├─ main.py             # Console-based interface to process a PDF and interact via Q&A
-├─ ui.py               # Gradio-based graphical interface for file upload, summaries, and Q&A
-├─ .env                # Store your OpenAI API key (not committed to version control)
-├─ .gitignore          # Ignore secrets and other non-committed files (e.g., .env)
+├─ pdf_utils.py # Functions for PDF text extraction and section identification
+├─ llm_utils.py # Functions to summarize text, summarize full papers, and answer questions
+├─ main.py # Console-based interface to process a PDF and interact via Q&A
+├─ ui.py # Gradio-based graphical interface for file upload, summaries, and Q&A
+├─ .env # Store your OpenAI API key (not committed to version control)
+├─ .gitignore # Ignore secrets and other non-committed files (e.g., .env)
 └─ input/
-   └─ input.pdf        # Example input PDF file
+└─ input.pdf # Example input PDF file
 Requirements
 Python 3.9 or newer (recommended)
 openai Python library
@@ -49,7 +49,7 @@ Create and activate a virtual environment (optional but recommended):
 bash
 Copy code
 python3 -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
+source venv/bin/activate # On Windows: venv\Scripts\activate
 Install dependencies:
 
 bash
@@ -69,14 +69,15 @@ echo "OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxx" > .env
 Replace sk-xxxxxxxx... with your actual API key.
 
 Usage
+
 1. Console Mode
-Place your PDF in the input directory (e.g., input.pdf).
-Adjust main.py if needed (e.g., change the PDF filename).
-Run:
-bash
-Copy code
-python main.py
-You will see:
+   Place your PDF in the input directory (e.g., input.pdf).
+   Adjust main.py if needed (e.g., change the PDF filename).
+   Run:
+   bash
+   Copy code
+   python main.py
+   You will see:
 
 Summaries of Abstract, Methods, Results
 A full paper summary
@@ -84,14 +85,14 @@ A prompt to ask questions interactively in the console.
 Type your questions and press enter. Type exit to quit.
 
 2. Web UI Mode
-Run:
-bash
-Copy code
-python ui.py
-This will launch a local Gradio interface. Open the given URL in your web browser.
-Upload a PDF in the UI.
-The application will display summaries and a full paper summary.
-You can then ask questions about the paper through the text box.
+   Run:
+   bash
+   Copy code
+   python ui.py
+   This will launch a local Gradio interface. Open the given URL in your web browser.
+   Upload a PDF in the UI.
+   The application will display summaries and a full paper summary.
+   You can then ask questions about the paper through the text box.
 
 Handling Large Documents
 If you encounter errors about the model’s maximum context length, the code attempts to chunk and summarize the text. For extremely large PDFs, consider further reducing the chunk sizes or using a more advanced retrieval method (e.g., embeddings + vector databases).
